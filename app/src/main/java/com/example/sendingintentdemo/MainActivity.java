@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, "MainActivity has received intent");
         }
     };
+    private Receiver receiver = new Receiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         sendIntentBtn.setOnClickListener( view -> {
             Intent intent = new Intent(ACTION);
             intent.setAction(ACTION);
+            intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
             Log.i(TAG, "Intent is sent!");
             getApplicationContext().sendBroadcast(intent, PERMISSION_PRIVATE);
         });
@@ -49,11 +51,16 @@ public class MainActivity extends AppCompatActivity {
                 filter,
                 PERMISSION_PRIVATE,
                 null);
+        getApplicationContext().registerReceiver(receiver,
+                filter,
+                PERMISSION_PRIVATE,
+                null);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         getApplicationContext().unregisterReceiver(localReceiver);
+        getApplicationContext().unregisterReceiver(receiver);
     }
 }

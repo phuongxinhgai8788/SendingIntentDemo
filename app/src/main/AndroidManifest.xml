@@ -21,7 +21,7 @@
         </activity>
         <receiver android:name=".Receiver"
             android:permission="com.example.sendingintentdemo.PERMISSION_PRIVATE"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.example.sendingintentdemo.ACTION"/>
             </intent-filter>
